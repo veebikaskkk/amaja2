@@ -631,3 +631,6 @@ body.valgusti-lahti{overflow:hidden}
   .menuu-kontakt-rida{flex-direction:column;gap:.8rem}
   .menuu-kontakt-rida a{font-size:1rem}
 }
+
+/* Vahepilt ilma tekstita: tumendust pole vaja */
+.vahepilt-tyhi::after{background:rgba(16,11,9,.12)}
