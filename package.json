@@ -1,0 +1,8 @@
+{
+  "name": "amaja-koduleht",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A-MAJA OÜ koduleht",
+  "type": "module",
+  "engines": { "node": ">=20" }
+}
