@@ -61,7 +61,7 @@
   /* ---------- Valgusti ---------- */
   var lingid = Array.prototype.slice.call(
     document.querySelectorAll(
-      ".galerii-joonised a[href], .tookaart a[href]"
+      ".galerii-joonised a[href], .tookaart a[href], .teenus-pilt a[href], .paar-kaart > a[href]"
     )
   );
 
@@ -126,6 +126,7 @@
       var k = kirjed[praegu];
       pilt.setAttribute("src", k.href);
       pilt.setAttribute("alt", k.alt);
+      raam.classList.toggle("joonisel", k.href.indexOf("-joonis") !== -1);
       tekst.innerHTML = "";
       var tugev = document.createElement("strong");
       tugev.textContent = k.pealkiri;
