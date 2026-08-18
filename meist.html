@@ -186,10 +186,41 @@
       </ul>
     </div>
     <div class="menuu-kontakt">
-      <p class="silt">Võta ühendust</p>
-      <a href="tel:+37253874959">+372 5387 4959</a>
-      <a href="mailto:info@a-maja.com">info@a-maja.com</a>
-      <p>Diplomeeritud arhitekt, tase 7<br>Projekteerime üle Eesti</p>
+      <p class="silt">Kiire hinnapäring</p>
+
+      <form class="menuu-vorm" id="menuu-vorm" data-paring novalidate>
+        <p class="vormi-teade" id="menuu-vormi-teade" role="alert" aria-live="polite" hidden></p>
+
+        <div class="vali">
+          <label for="menuu-nimi">Nimi</label>
+          <input type="text" id="menuu-nimi" name="nimi" autocomplete="name" required>
+        </div>
+        <div class="vali">
+          <label for="menuu-epost">E-post</label>
+          <input type="email" id="menuu-epost" name="epost" autocomplete="email" required>
+        </div>
+        <div class="vali">
+          <label for="menuu-sonum">Mida plaanite?</label>
+          <textarea id="menuu-sonum" name="sonum" rows="3" required></textarea>
+        </div>
+
+        <div class="nousolek">
+          <input type="checkbox" id="menuu-nousolek" name="nousolek" required>
+          <label for="menuu-nousolek">Nõustun andmete töötlemisega. <a href="/privaatsus.html">Privaatsus</a></label>
+        </div>
+
+        <div class="meepott" aria-hidden="true">
+          <label for="menuu-veebiaadress">Jätke see väli tühjaks</label>
+          <input type="text" id="menuu-veebiaadress" name="veebiaadress" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="nupp" data-saada>Saada päring</button>
+      </form>
+
+      <p class="menuu-kontakt-rida">
+        <a href="tel:+37253874959">+372 5387 4959</a>
+        <a href="mailto:info@a-maja.com">info@a-maja.com</a>
+      </p>
     </div>
   </div>
 </nav>

@@ -56,8 +56,6 @@
     });
   }
 
-  var vorm = document.getElementById("paringu-vorm");
-
   /* ---------- Valgusti ---------- */
   var lingid = Array.prototype.slice.call(
     document.querySelectorAll(
@@ -191,81 +189,99 @@
   }
   /* ---------- Valgusti lõpp ---------- */
 
-  if (!vorm) return;
+  /* ---------- Hinnapäringu vormid ---------- */
+  Array.prototype.slice.call(document.querySelectorAll("form[data-paring]")).forEach(seaVorm);
 
-  var teade = document.getElementById("vormi-teade");
-  var saada = document.getElementById("saada-nupp");
-  var uuendus = document.getElementById("olemasolev-plokk");
+  function seaVorm(vorm) {
+    var teade = vorm.querySelector(".vormi-teade");
+    var saada = vorm.querySelector("[data-saada]");
+    var uuendus = vorm.querySelector("#olemasolev-plokk");
 
-  vorm.addEventListener("change", function (e) {
-    if (e.target.name === "liik" && uuendus) {
-      uuendus.hidden = e.target.value !== "uuendus";
-    }
-  });
-
-  vorm.addEventListener("input", function (e) {
-    if (e.target.classList) e.target.classList.remove("viga-vali");
-  });
-
-  function naita(tekst, klass) {
-    teade.textContent = tekst;
-    teade.className = "vormi-teade " + klass;
-    teade.hidden = false;
-  }
-
-  vorm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    teade.hidden = true;
-
-    var puudu = [];
-    ["nimi", "epost", "sonum"].forEach(function (id) {
-      var v = vorm.elements[id];
-      if (!v.value.trim()) {
-        v.classList.add("viga-vali");
-        puudu.push(v);
+    vorm.addEventListener("change", function (e) {
+      if (e.target.name === "liik" && uuendus) {
+        uuendus.hidden = e.target.value !== "uuendus";
       }
     });
-    var epost = vorm.elements.epost;
-    if (epost.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(epost.value.trim())) {
-      epost.classList.add("viga-vali");
-      puudu.push(epost);
-    }
-    if (!vorm.elements.nousolek.checked) {
-      naita("Palun kinnitage nõusolek andmete töötlemiseks.", "viga");
-      vorm.elements.nousolek.focus();
-      return;
-    }
-    if (puudu.length) {
-      naita("Palun täitke nimi, e-post ja kirjeldus.", "viga");
-      puudu[0].focus();
-      return;
+
+    vorm.addEventListener("input", function (e) {
+      if (e.target.classList) e.target.classList.remove("viga-vali");
+    });
+
+    function naita(tekst, klass) {
+      if (!teade) return;
+      teade.textContent = tekst;
+      teade.className = "vormi-teade " + klass;
+      teade.hidden = false;
     }
 
-    saada.disabled = true;
-    saada.textContent = "Saadan\u2026";
+    function vali(nimi) {
+      return vorm.querySelector("[name=" + nimi + "]");
+    }
 
-    fetch("/api/kontakt", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nimi: vorm.elements.nimi.value,
-        ettevote: vorm.elements.ettevote.value,
-        epost: vorm.elements.epost.value,
-        telefon: vorm.elements.telefon.value,
-        liik: (vorm.querySelector("[name=liik]:checked") || {}).value || "",
-        olemasolev: vorm.elements.olemasolev ? vorm.elements.olemasolev.value : "",
-        sonum: vorm.elements.sonum.value,
-        veebiaadress: vorm.elements.veebiaadress.value
-      })
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("halb vastus");
-        window.location.href = "/aitah.html";
-      })
-      .catch(function () {
-        saada.disabled = false;
-        saada.textContent = "Saada päring";
-        naita("Päringu saatmine ebaõnnestus. Palun helistage +372 5387 4959 või kirjutage aadressil info@a-maja.com.", "viga");
+    vorm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (teade) teade.hidden = true;
+
+      var puudu = [];
+      ["nimi", "epost", "sonum"].forEach(function (n) {
+        var v = vali(n);
+        if (v && !v.value.trim()) {
+          v.classList.add("viga-vali");
+          puudu.push(v);
+        }
       });
-  });
+
+      var epost = vali("epost");
+      if (epost && epost.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(epost.value.trim())) {
+        epost.classList.add("viga-vali");
+        puudu.push(epost);
+      }
+
+      var nousolek = vali("nousolek");
+      if (nousolek && !nousolek.checked) {
+        naita("Palun kinnitage nõusolek andmete töötlemiseks.", "viga");
+        nousolek.focus();
+        return;
+      }
+      if (puudu.length) {
+        naita("Palun täitke nimi, e-post ja kirjeldus.", "viga");
+        puudu[0].focus();
+        return;
+      }
+
+      var liikVali = vorm.querySelector("[name=liik]:checked");
+      var olemasolev = vali("olemasolev");
+      var ettevote = vali("ettevote");
+      var telefon = vali("telefon");
+      var meepott = vali("veebiaadress");
+
+      saada.disabled = true;
+      var vanaTekst = saada.textContent;
+      saada.textContent = "Saadan\u2026";
+
+      fetch("/api/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nimi: vali("nimi").value,
+          ettevote: ettevote ? ettevote.value : "",
+          epost: epost.value,
+          telefon: telefon ? telefon.value : "",
+          liik: liikVali ? liikVali.value : "",
+          olemasolev: olemasolev ? olemasolev.value : "",
+          sonum: vali("sonum").value,
+          veebiaadress: meepott ? meepott.value : ""
+        })
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error("halb vastus");
+          window.location.href = "/aitah.html";
+        })
+        .catch(function () {
+          saada.disabled = false;
+          saada.textContent = vanaTekst;
+          naita("Päringu saatmine ebaõnnestus. Palun helistage +372 5387 4959 või kirjutage aadressil info@a-maja.com.", "viga");
+        });
+    });
+  }
 })();

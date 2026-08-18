@@ -604,3 +604,30 @@ body.valgusti-lahti{overflow:hidden}
 }
 .meist-arvud .arv{font-family:"Plex Mono",monospace;font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1;color:var(--aktsent)}
 .meist-arvud .arv-silt{font-size:.76rem;letter-spacing:.06em;color:var(--tekst-tume);line-height:1.5}
+
+/* ============ MENÜÜ VORM ============ */
+.menuu-kontakt{display:flex;flex-direction:column;gap:1rem;align-items:stretch}
+.menuu-vorm{display:grid;gap:.9rem;max-width:420px;width:100%}
+.menuu-vorm .vali label{font-size:.78rem;letter-spacing:.04em;margin-bottom:.35rem;color:var(--tekst-tume)}
+.menuu-vorm input[type=text],
+.menuu-vorm input[type=email],
+.menuu-vorm textarea{min-height:44px;padding:10px 13px;font-size:.95rem;background:var(--puit-tume)}
+.menuu-vorm textarea{min-height:86px}
+.menuu-vorm .nousolek{font-size:.8rem;gap:10px}
+.menuu-vorm .nousolek input{width:18px;height:18px}
+.menuu-vorm .nupp{min-height:46px;width:100%}
+.menuu-vorm .vormi-teade{font-size:.85rem}
+.menuu-kontakt-rida{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;margin:.4rem 0 0}
+.menuu-kontakt-rida a{
+  font-family:"Plex Mono",monospace;font-size:.86rem;color:var(--tekst-tume);
+  text-decoration:none;border-bottom:1px solid var(--joon);padding-bottom:2px;overflow-wrap:anywhere;
+}
+.menuu-kontakt-rida a:hover{color:var(--aktsent);border-bottom-color:var(--aktsent)}
+
+/* Telefonis vorm menüüs ei mahu, näita ainult kontakte */
+@media (max-width:899px){
+  .menuu-vorm{display:none}
+  .menuu-kontakt .silt{margin-bottom:.2rem}
+  .menuu-kontakt-rida{flex-direction:column;gap:.8rem}
+  .menuu-kontakt-rida a{font-size:1rem}
+}
