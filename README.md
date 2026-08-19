@@ -43,6 +43,28 @@ Kõik on WebP, EXIF ja GPS-koordinaadid eemaldatud, failinimed
 kirjeldavad, alt-tekstid täislausetena. Joonised on kvaliteediga 94 ja
 ilma suurendamiseta, sest lähtefailid olid ligikaudu 900 px laiad.
 
+### Logo
+
+Logo on vektor, SVG. Ta on trassitud puhasteks kõverateks, seega on igal
+suurusel terav ja fail on väike. Kaustas on kolm varianti:
+
+- `pildid/a-maja-logo-hele.svg` tumedale taustale
+- `pildid/a-maja-logo-tume.svg` heledale taustale
+- `pildid/a-maja-logo.svg` võtab värvi ümbritsevast tekstist
+
+PNG-versioonid on samuti olemas, nende jaoks, kus vektorit kasutada ei
+saa. Faviconid ja jagamispilt on kõik samast vektorist tehtud.
+
+Avalehe suur logo on HTML-i sisse kirjutatud SVG-na, mitte pildina.
+Seda on vaja selleks, et logo saaks end lehe avanemisel joonistada:
+esmalt tõmmatakse kontuur joonena, siis täidetakse kuju ja joon kaob.
+Animatsioon kestab umbes kolm sekundit. Kui külastajal on
+operatsioonisüsteemis liikumise vähendamine sisse lülitatud, kuvatakse
+logo kohe lõppolekus.
+
+See lisab avalehele umbes 22 KB, pakituna umbes 6 KB. Header ja jalus
+kasutavad tavalist pildiviidet, sest seal animatsiooni vaja ei ole.
+
 **Hero pildi kvaliteet.** Suvekohviku render on 1800 px lai, mis on
 korras. Kui mõnest joonisest on originaal olemas suuremana, saada, siis
 teen selle uuesti suurema lahutusega, sest praeguse pealt suurendades

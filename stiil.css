@@ -634,3 +634,29 @@ body.valgusti-lahti{overflow:hidden}
 
 /* Vahepilt ilma tekstita: tumendust pole vaja */
 .vahepilt-tyhi::after{background:rgba(16,11,9,.12)}
+
+/* ============ AVAPILDI LOGO, JOONISTUMINE ============ */
+.avapilt-logo{
+  width:auto;height:clamp(96px,17vw,196px);
+  filter:drop-shadow(0 4px 40px rgba(16,11,9,.9));
+  overflow:visible;
+}
+.logo-joon{
+  stroke-dasharray:1000;
+  stroke-dashoffset:1000;
+  animation:
+    logo-joonistub 2.9s cubic-bezier(.5,0,.25,1) .25s forwards,
+    logo-joon-kaob 1s ease-out 2.6s forwards;
+}
+.logo-tais{
+  opacity:0;
+  animation:logo-taidab 1.1s ease-out 2.45s forwards;
+}
+@keyframes logo-joonistub{ to{stroke-dashoffset:0} }
+@keyframes logo-joon-kaob{ to{stroke-opacity:0} }
+@keyframes logo-taidab{ to{opacity:1} }
+
+@media (prefers-reduced-motion:reduce){
+  .logo-joon{animation:none;stroke-dashoffset:0;opacity:0}
+  .logo-tais{animation:none;opacity:1}
+}
